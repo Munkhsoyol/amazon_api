@@ -1,7 +1,8 @@
 exports.getCategories = (req, res, next) => {
     res.status(200).json({
         success: true,
-        data: "View category."
+        data: "View category.",
+        user: req.userId
     });
 };
 
