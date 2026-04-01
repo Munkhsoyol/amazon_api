@@ -8,6 +8,14 @@ dotenv.config({ path: "./config/config.env" });
 
 const app = express();
 
+// Middleware
+const logger = (req, res, next) => {
+    console.log(`${req.method} ${req.protocol}://${req.host}${req.originalUrl}`);
+    next();
+}
+
+app.use(logger);
+
 app.use("/api/v1/categories", categoriesRoutes);
 
 app.listen(

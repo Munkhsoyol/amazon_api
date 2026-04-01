@@ -14,6 +14,8 @@ router.route("/").get(getCategories).post(createCategories);
 
 router
     .route("/:id")
-    .get(getC)
+    .get(getCategory)
+    .put(updateCategory)
+    .delete(deleteCategory)
 
 module.exports = router;
