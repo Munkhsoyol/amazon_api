@@ -1,16 +1,19 @@
 const express = require("express");
 const dotenv = require("dotenv");
-const fs = require("fs");
 const path = require("path");
 const morgan = require("morgan");
 var rfs = require('rotating-file-stream');
+const connectDB = require("./config/db");
+
+// Аппын тохиргоог process.env рүү ачаалах
+dotenv.config({ path: "./config/config.env" });
+
+connectDB();
 
 const logger = require("./middleware/logger");
 
 // Router холболт
 const categoriesRoutes = require("./routes/categories");
-
-dotenv.config({ path: "./config/config.env" });
 
 // create a rotating write stream
 var accessLogStream = rfs.createStream('access.log', {
@@ -29,3 +32,15 @@ app.listen(
     process.env.PORT, 
     console.log(`Express сервер ${process.env.PORT} порт дээр аслаа....`)
 );
+
+// const server = app.listen(
+//     process.env.PORT, 
+//     console.log(`Express сервер ${process.env.PORT} порт дээр аслаа....`)
+// );
+
+// process.on("unhandledRejection", (err, promise) => {
+//   console.log(`Алдаа гарлаа: ${err.message}`);
+//   server.close(() => {
+//     process.exit(1);
+//   });
+// });
