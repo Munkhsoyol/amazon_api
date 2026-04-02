@@ -25,6 +25,9 @@ var accessLogStream = rfs.createStream('access.log', {
 // setup the logger
 const app = express();
 
+// Body parser
+app.use(express.json());
+
 app.use(logger);
 app.use(morgan('combined', { stream: accessLogStream }));
 app.use("/api/v1/categories", categoriesRoutes);
