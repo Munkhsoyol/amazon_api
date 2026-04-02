@@ -4,6 +4,7 @@ const path = require("path");
 const morgan = require("morgan");
 var rfs = require('rotating-file-stream');
 const connectDB = require("./config/db");
+const colors = require("colors");
 
 // Аппын тохиргоог process.env рүү ачаалах
 dotenv.config({ path: "./config/config.env" });
