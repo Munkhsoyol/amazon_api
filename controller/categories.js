@@ -19,17 +19,17 @@ exports.getCategories = async (req, res, next) => {
 exports.getCategory = async (req, res, next) => {
     try {
         const category = await Category.findById(req.params.id);
-        if(category) {
-            res.status(200).json({
-                success: true,
-                data: category
-            });
-        } else {
-            res.status(400).json({
+        if(!category) {
+            return res.status(400).json({
                 success: false,
-                data: req.params.id + " - Байхгүй байна.",
+                error: req.params.id + " - ID-тэй ангилал байхгүй байна.",
             });
-        }
+        } 
+
+        res.status(200).json({
+            success: true,
+            data: category
+        });
     } catch (err) {
         res.status(400).json({
             success: false,
@@ -55,16 +55,49 @@ exports.createCategories = async (req, res, next) => {
     }
 };
 
-exports.updateCategory = (req, res, next) => {
-    res.status(200).json({
-        success: true,
-        data: `${req.params.id} ID change category.`
-    });
+exports.updateCategory = async (req, res, next) => {
+    try {
+        const category = await Category.findByIdAndUpdate(req.params.id, req.body, {
+            new: true,
+            runValidators: true
+        });
+        if(!category) {
+            return res.status(400).json({
+                success: false,
+                error: req.params.id + " - ID-тэй ангилал байхгүй байна.",
+            });
+        } 
+
+        res.status(200).json({
+            success: true,
+            data: category
+        });
+    } catch (err) {
+        res.status(400).json({
+            success: false,
+            data: err,
+        });
+    }
 };
 
-exports.deleteCategory = (req, res, next) => {
-    res.status(200).json({
-        success: true,
-        data: `${req.params.id} ID delete category.`
-    });
+exports.deleteCategory = async (req, res, next) => {
+    try {
+        const category = await Category.findByIdAndDelete(req.params.id);
+        if(!category) {
+            return res.status(400).json({
+                success: false,
+                error: req.params.id + " - ID-тэй ангилал байхгүй байна.",
+            });
+        } 
+
+        res.status(200).json({
+            success: true,
+            data: category
+        });
+    } catch (err) {
+        res.status(400).json({
+            success: false,
+            data: err,
+        });
+    }
 };
