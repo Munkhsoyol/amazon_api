@@ -5,6 +5,7 @@ const morgan = require("morgan");
 var rfs = require('rotating-file-stream');
 const connectDB = require("./config/db");
 const colors = require("colors");
+const errorHandler = require("./middleware/error");
 
 // Аппын тохиргоог process.env рүү ачаалах
 dotenv.config({ path: "./config/config.env" });
@@ -31,6 +32,7 @@ app.use(express.json());
 app.use(logger);
 app.use(morgan('combined', { stream: accessLogStream }));
 app.use("/api/v1/categories", categoriesRoutes);
+app.use(errorHandler);
 
 app.listen(
     process.env.PORT, 
