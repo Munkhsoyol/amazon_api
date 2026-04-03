@@ -1,4 +1,5 @@
 const Category = require("../models/Category");
+const MyError = require("../utils/myError");
 
 exports.getCategories = async (req, res, next) => {
 
@@ -17,10 +18,10 @@ exports.getCategory = async (req, res, next) => {
     try {
         const category = await Category.findById(req.params.id);
         if(!category) {
-            return res.status(400).json({
-                success: false,
-                error: req.params.id + " - ID-тэй ангилал байхгүй байна.",
-            });
+            throw new MyError(
+                req.params.id + " - ID-тэй ангилал байхгүй байна.",
+                400
+            );
         } 
 
         res.status(200).json({
@@ -53,10 +54,10 @@ exports.updateCategory = async (req, res, next) => {
             runValidators: true
         });
         if(!category) {
-            return res.status(400).json({
-                success: false,
-                error: req.params.id + " - ID-тэй ангилал байхгүй байна.",
-            });
+            throw new MyError(
+                req.params.id + " - ID-тэй ангилал байхгүй байна.",
+                400
+            );
         } 
 
         res.status(200).json({
@@ -72,10 +73,10 @@ exports.deleteCategory = async (req, res, next) => {
     try {
         const category = await Category.findByIdAndDelete(req.params.id);
         if(!category) {
-            return res.status(400).json({
-                success: false,
-                error: req.params.id + " - ID-тэй ангилал байхгүй байна.",
-            });
+            throw new MyError(
+                req.params.id + " - ID-тэй ангилал байхгүй байна.",
+                400
+            );
         } 
 
         res.status(200).json({
